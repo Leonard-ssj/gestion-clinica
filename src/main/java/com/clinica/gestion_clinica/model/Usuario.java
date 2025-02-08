@@ -20,8 +20,8 @@ public class Usuario {
     @Column(nullable = false)
     private String contraseña;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private RolUsuario rol;  // Puede ser MEDICO, ENFERMERA o ADMINISTRADOR
+    @ManyToOne
+    @JoinColumn(name = "rol_id", nullable = false)
+    private Rol rol; // Relación con la tabla de roles
 }
 

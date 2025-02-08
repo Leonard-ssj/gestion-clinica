@@ -1,6 +1,5 @@
 package com.clinica.gestion_clinica.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +19,7 @@ public class CitaMedica {
 
     @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
-    private Medico medico;
+    private Usuario medico;  // Ahora referencia a Usuario
 
     @Column(nullable = false)
     private String fechaHora;
@@ -28,4 +27,3 @@ public class CitaMedica {
     private String estado; // Pendiente, Confirmada, Cancelada
     private String motivoConsulta;
 }
-

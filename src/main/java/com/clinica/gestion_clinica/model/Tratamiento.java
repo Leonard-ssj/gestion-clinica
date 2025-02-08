@@ -1,6 +1,5 @@
 package com.clinica.gestion_clinica.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +19,7 @@ public class Tratamiento {
 
     @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
-    private Medico medico;
+    private Usuario medico;  // Ahora referencia a Usuario
 
     @ManyToOne
     @JoinColumn(name = "medicamento_id", nullable = false)
@@ -30,4 +29,3 @@ public class Tratamiento {
     private String fechaFin;
     private String indicaciones;
 }
-
