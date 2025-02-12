@@ -6,9 +6,18 @@ import java.util.Optional;
 import com.clinica.gestion_clinica.model.CitaMedica;
 
 public interface CitaMedicaService {
-    
-    List<CitaMedica> listarCitas();
+
+    CitaMedica crearCita(CitaMedica cita);
+
     Optional<CitaMedica> obtenerCitaPorId(Long id);
-    CitaMedica guardarCita(CitaMedica cita);
-    void eliminarCita(Long id);
+
+    List<CitaMedica> obtenerTodasLasCitas();
+
+    CitaMedica cancelarCita(Long id);
+
+    CitaMedica actualizarFechaCita(Long id, String nuevaFecha);
+
+    List<CitaMedica> obtenerCitasPorMedico(Long idMedico);
+
+    List<CitaMedica> obtenerCitasPorPaciente(Long idPaciente);
 }

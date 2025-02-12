@@ -1,14 +1,10 @@
 package com.clinica.gestion_clinica.serviceImpl;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.clinica.gestion_clinica.model.Paciente;
 import com.clinica.gestion_clinica.repository.PacienteRepository;
 import com.clinica.gestion_clinica.services.PacienteService;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +30,23 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
+    public Paciente actualizarPaciente(Long id, Paciente paciente) {
+        Optional<Paciente> pacienteExistente = pacienteRepository.findById(id);
+        if (pacienteExistente.isPresent()) {
+            paciente.setIdPaciente(id);
+            return pacienteRepository.save(paciente);
+        } else {
+            throw new RuntimeException("Paciente no encontrado");
+        }
+    }
+
+    @Override
     public void eliminarPaciente(Long id) {
         pacienteRepository.deleteById(id);
     }
-}
 
+    @Override
+    public List<Paciente> buscarPorNombre(String nombre) {
+        return pacienteRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+}

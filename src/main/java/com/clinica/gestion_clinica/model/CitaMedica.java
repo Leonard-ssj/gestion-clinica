@@ -19,11 +19,13 @@ public class CitaMedica {
 
     @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
-    private Usuario medico;  // Ahora referencia a Usuario
+    private Usuario medico; // Ahora referencia a Usuario
 
     @Column(nullable = false)
     private String fechaHora;
 
-    private String estado; // Pendiente, Confirmada, Cancelada
+    @Column(nullable = false)
+    private String estado = "Confirmada"; // Por defecto, siempre se crea como Confirmada
+
     private String motivoConsulta;
 }

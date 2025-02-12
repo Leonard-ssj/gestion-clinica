@@ -23,12 +23,14 @@ public class UsuarioController {
     @Autowired
     private RolRepository rolRepository;
 
-    @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody UsuarioRequest usuarioRequest) {
-        Usuario nuevoUsuario = usuarioService.guardarUsuario(usuarioRequest.getNombreUsuario(),
-                usuarioRequest.getContraseña(),
-                usuarioRequest.getRolId());
-        return ResponseEntity.ok(nuevoUsuario);
+    /**
+     * 
+     * METODOS GET
+     */
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> obtenerTodosLosUsuarios() {
+        return ResponseEntity.ok(usuarioService.obtenerTodosLosUsuarios());
     }
 
     @GetMapping("/{id}")
@@ -45,6 +47,47 @@ public class UsuarioController {
     @GetMapping("/medicos")
     public ResponseEntity<List<Usuario>> obtenerMedicos() {
         return ResponseEntity.ok(usuarioService.obtenerMedicos());
+    }
+
+    @GetMapping("/rol/{idRol}")
+    public ResponseEntity<List<Usuario>> obtenerUsuariosPorRol(@PathVariable Long idRol) {
+        return ResponseEntity.ok(usuarioService.obtenerUsuariosPorRol(idRol));
+    }
+
+    /**
+     * 
+     * METODOS POST
+     */
+
+    @PostMapping
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+        Usuario nuevoUsuario = usuarioService.guardarUsuario(usuarioRequest.getNombreUsuario(),
+                usuarioRequest.getContraseña(),
+                usuarioRequest.getRolId());
+        return ResponseEntity.ok(nuevoUsuario);
+    }
+
+    /**
+     * 
+     * METODOS PUT
+     */
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id,
+            @RequestBody UsuarioRequest usuarioRequest) {
+        Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioRequest);
+        return ResponseEntity.ok(usuarioActualizado);
+    }
+
+    /**
+     * 
+     * METODOS DELETE
+     */
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

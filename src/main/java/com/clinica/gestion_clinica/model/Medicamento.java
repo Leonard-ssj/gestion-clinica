@@ -1,6 +1,5 @@
 package com.clinica.gestion_clinica.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +20,3 @@ public class Medicamento {
     private String contraindicaciones;
     private String dosisRecomendada;
 }
-

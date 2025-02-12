@@ -1,5 +1,7 @@
 package com.clinica.gestion_clinica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,24 +10,22 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "pacientes")
+@JsonIgnoreProperties({"historiaClinica"})  // Evita bucles sin afectar POST
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPaciente;
 
-    @Column(nullable = false)
     private String nombre;
-
-    @Column(nullable = false)
     private String apellido;
-
-    @Column(nullable = false)
     private String fechaNacimiento;
-
     private String telefono;
     private String correo;
 
-    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private HistoriaClinica historiaClinica;
+
+    public Paciente() {}  // Constructor vacío obligatorio
 }
+
 
