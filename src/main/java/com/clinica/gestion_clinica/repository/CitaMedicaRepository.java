@@ -21,4 +21,7 @@ public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long> {
 
     // Verificar si un médico ya tiene una cita en esa fecha y hora
     boolean existsByMedico_IdUsuarioAndFechaHora(Long idUsuario, String fechaHora);
+
+    Long countByEstado(String estado);
+
 }

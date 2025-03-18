@@ -27,5 +27,8 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol; // Relación con la tabla de roles
+
+    @Column(name = "rol_id", insertable = false, updatable = false)
+    private Long rolId;
 }
 

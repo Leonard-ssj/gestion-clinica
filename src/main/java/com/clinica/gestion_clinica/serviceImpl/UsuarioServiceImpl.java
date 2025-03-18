@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.clinica.gestion_clinica.model.Rol;
 import com.clinica.gestion_clinica.model.Usuario;
+import com.clinica.gestion_clinica.model.dto.UsuarioNewPasswordResponse;
 import com.clinica.gestion_clinica.model.dto.UsuarioRequest;
+import com.clinica.gestion_clinica.model.dto.UsuarioResponse;
 import com.clinica.gestion_clinica.repository.RolRepository;
 import com.clinica.gestion_clinica.repository.UsuarioRepository;
 import com.clinica.gestion_clinica.services.UsuarioService;
@@ -37,7 +39,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> obtenerMedicos() {
+    public List<UsuarioResponse> obtenerMedicos() {
         return usuarioRepository.findMedicos();
     }
 
@@ -47,8 +49,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        return usuarioRepository.findAll();
+    public List<UsuarioResponse> obtenerTodosLosUsuarios() {
+        return usuarioRepository.findAllUsuarios();
     }
 
     @Override
@@ -61,10 +63,19 @@ public class UsuarioServiceImpl implements UsuarioService {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
+
+            // Actualizar nombre de usuario
             usuario.setNombreUsuario(usuarioRequest.getNombreUsuario());
-            usuario.setContraseña(usuarioRequest.getContraseña());
+
+            // Si se proporciona una nueva contraseña, actualizarla
+            if (usuarioRequest.getContraseña() != null && !usuarioRequest.getContraseña().isEmpty()) {
+                usuario.setContraseña(usuarioRequest.getContraseña());
+            }
+
+            // Actualizar rol
             usuario.setRol(rolRepository.findById(usuarioRequest.getRolId())
                     .orElseThrow(() -> new RuntimeException("Rol no encontrado")));
+
             return usuarioRepository.save(usuario);
         } else {
             throw new RuntimeException("Usuario no encontrado");
@@ -72,10 +83,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> obtenerUsuariosPorRol(Long idRol) {
+    public List<UsuarioResponse> obtenerUsuariosPorRol(Long idRol) {
         return usuarioRepository.findByRolId(idRol);
     }
 
-
-
+    @Override
+    public Optional<UsuarioNewPasswordResponse> obtenerUsuarioConNuevaContraseña(Long id) {
+        return usuarioRepository.findUsuarioWithNewPassword(id);
+    }
 }

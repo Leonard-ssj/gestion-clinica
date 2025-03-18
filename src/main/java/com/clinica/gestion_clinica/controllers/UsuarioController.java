@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.clinica.gestion_clinica.model.Rol;
 import com.clinica.gestion_clinica.model.Usuario;
+import com.clinica.gestion_clinica.model.dto.UsuarioNewPasswordResponse;
 import com.clinica.gestion_clinica.model.dto.UsuarioRequest;
+import com.clinica.gestion_clinica.model.dto.UsuarioResponse;
 import com.clinica.gestion_clinica.repository.RolRepository;
 import com.clinica.gestion_clinica.services.UsuarioService;
 
@@ -29,7 +31,7 @@ public class UsuarioController {
      */
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> obtenerTodosLosUsuarios() {
+    public ResponseEntity<List<UsuarioResponse>> obtenerTodosLosUsuarios() {
         return ResponseEntity.ok(usuarioService.obtenerTodosLosUsuarios());
     }
 
@@ -45,13 +47,19 @@ public class UsuarioController {
     }
 
     @GetMapping("/medicos")
-    public ResponseEntity<List<Usuario>> obtenerMedicos() {
+    public ResponseEntity<List<UsuarioResponse>> obtenerMedicos() {
         return ResponseEntity.ok(usuarioService.obtenerMedicos());
     }
 
     @GetMapping("/rol/{idRol}")
-    public ResponseEntity<List<Usuario>> obtenerUsuariosPorRol(@PathVariable Long idRol) {
+    public ResponseEntity<List<UsuarioResponse>> obtenerUsuariosPorRol(@PathVariable Long idRol) {
         return ResponseEntity.ok(usuarioService.obtenerUsuariosPorRol(idRol));
+    }
+
+    @GetMapping("/newpassword/{id}")
+    public ResponseEntity<UsuarioNewPasswordResponse> obtenerUsuarioConNuevaContraseña(@PathVariable Long id) {
+        Optional<UsuarioNewPasswordResponse> usuario = usuarioService.obtenerUsuarioConNuevaContraseña(id);
+        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
